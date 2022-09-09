@@ -1,0 +1,20 @@
+import React from "react";
+import "./header.css";
+
+function Header() {
+  return (
+    <div className="header">
+      <div className="headerTitles">
+        <span className="headerTitlesSm">React & Node</span>
+        <span className="headerTitleLg">Blog</span>
+      </div>
+      <img
+        className="headerImg"
+        src="https://images.pexels.com/photos/1167355/pexels-photo-1167355.jpeg?auto=compress&cs-tinysrgb&dpr=2&w=500"
+        alt=""
+      />
+    </div>
+  );
+}
+
+export default Header;
