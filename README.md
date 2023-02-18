@@ -1,16 +1,311 @@
-## font
+# Blog Project with MERN STACK
+> 웹 페이지의 기본적인 기능인 CRUD와 로그인, 회원가입 기능을 갖춘 게시판 프로젝트입니다.
 
-1. fontawesome
-2. googleFont
 
-## REACT
 
-1. contextAPI
-   -> context 폴더 / inndex.js / login.jsx / app.js
-2. localhost 기능
-3. userRef
-4. localStorage
-5. FormData()
-   -> write.jsx
-6. createObjectURL
-   -> write.jsx
+## 목차
+
+- [들어가며](#들어가며)
+
+  - [프로젝트 소개](#1-프로젝트-소개)
+  
+  - [프로젝트 기능](#2-프로젝트-기능)
+  
+  - [사용기술](#3-사용기술)
+    
+  - [실행화면](#4-실행화면)
+  
+- [구조 및 설계](#구조-및-설계)
+
+  - [프로젝트 구조](#1-프로젝트-구조)
+
+  - [DB 설계](#2-db-설계)
+  
+  - [API 설계](#3-api-설계)
+  
+- [추후 업데이트](#추후-업데이트)
+
+- [후기](#후기)
+
+
+## 들어가며
+### 1. 프로젝트 소개
+
+이 프로젝트는 CRUD와 로그인, 회원가입 기능을 갖춘 기본적인 게시판을 구현한 프로젝트로 
+
+React.js와 node.js를 공부해보기 위해 시작했습니다.
+
+
+### 2. 프로젝트 기능
+
+프로젝트의 기능은 다음과 같습니다.
+
+- 게시판 : CRUD 기능, 게시글 상세 정보(제목, 내용, 날짜, 글쓴이, 댓글) 표시, 페이징 처리
+
+- 사용자 : 회원가입 및 로그인, 회원가입 시 유효성 및 중복 검사
+
+- 댓글 : crud 기능, 댓글 상세 정보(날짜, 글쓴이) 표시
+
+### 3. 사용기술
+
+- 프론트엔드
+  
+  - Fontawesome
+  
+  - Google Fonts
+  
+  - React.js
+  
+  - ContextAPI
+  
+  - react-router-dom
+  
+- 백엔드
+
+  - 프레임워크 및 라이브러리
+  
+    - node.js
+    
+    - Express
+    
+    - bcrypt
+  
+    - MongoDB
+  
+    
+### 4. 실행화면
+
+<details>
+<summary>메인 페이지</summary>
+
+![image](https://user-images.githubusercontent.com/26796099/218563257-1d6ff896-91f9-4115-94e4-16117a0ae82a.png)
+
+</details>
+
+<details>
+<summary>게시글 등록 페이지</summary>
+
+![image](https://user-images.githubusercontent.com/26796099/218556143-dd77a280-36f4-452d-a388-8d8a2fbaf7da.png)
+
+</details>
+
+<details>
+<summary>게시글 상세 페이지</summary>
+
+![image](https://user-images.githubusercontent.com/26796099/218556368-8f320485-5c26-4822-a900-99da21493ba3.png)
+
+</details>
+
+## 구조 및 설계
+
+### 1. 프로젝트 구조
+
+프로젝트 구조는 다음과 같습니다.
+
+```
+📦 
+├─ api
+├─ client
+├─ node_modules
+├─ package-lock.json
+└─ package.json
+```
+- api : node.js의 express 모듈을 사용해서 개발한 서버 애플리케이션 폴더
+- client : react.js를 사용해서 개발한 프론트 부분 폴더
+
+### 2. DB 설계
+
+- user 컬렉션
+
+```
+{
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    email: {
+      type: String,
+      require: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    profilePic: {
+      type: String,
+      default: "",
+    },
+}  
+```
+
+- post 컬렉션
+
+```
+{
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    desc: {
+      type: String,
+      required: true,
+    },
+    photo: {
+      type: String,
+      required: false,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    categories: {
+      type: Array,
+      required: false,
+    },
+}
+```
+
+- Category 컬렉션
+```
+{
+    name: {
+      type: String,
+      required: true,
+    },
+}
+```
+
+
+
+### 3. API 설계
+
+- 게시글 관련 API
+
+|기 능|Method|URL|return page|
+|---|---|---|---|
+|게시글 전체 조회|GET|/|메인 페이지|
+|게시글 전체 조회|GET|/question/list|메인 페이지|
+|게시글 상세|GET|/question/detail/{id}|게시글 상세 페이지|
+|게시글 등록 페이지 이동|GET|/question/create|게시글 등록 페이지|
+|게시글 등록|POST|/question/create|메인 페이지|
+|게시글 수정 페이지 이동|GET|/question/modify/{id}|게시글 수정 페이지|
+|게시글 수정|POST|/question/modify/{id}|게시글 상세 페이지|
+|게시글 삭제|GET|/question/delete/{id}|메인 페이지|
+
+
+- 회원 관련 API
+
+|기 능|Method|URL|return page|
+|---|---|---|---|
+|회원가입 페이지 이동|GET|/user/signup|회원가입 페이지|
+|회원가입|POST|/user/signup|메인 페이지|
+|로그인 페이지 이동|GET|/user/login|로그인 페이지|
+|로그인|POST|/user/login|메인 페이지|
+|로그아웃|POST|/user/logout|메인 페이지|
+
+
+
+- 댓글 관련 API
+
+|기 능|Method|URL|return page|
+|---|---|---|---|
+|답변 등록|POST|/answer/create/{id}|게시글 상세 페이지|
+|답변 수정 페이지 이동|GET|/answer/modify/{id}|답변 수정 페이지|
+|답변 수정|POST|/answer/modify/{id}|게시글 상세 페이지|
+|답변 삭제|GET|/answer/delete/{id}|게시글 상세 페이지|
+
+
+## 추후 업데이트
+
+### 1. Service 수정 필요
+
+UserService, QuestionService 및 AnswerService 의 getUser와 getQuestion, getAnswer 메서드를 통해 
+
+user와 question, answer 을 가져올때 Optional 을 통해서 값을 찾지 못했을 경우 예외처리 필요
+
+<details>
+<summary>코드예시</summary>
+
+```
+package com.crud.service;
+...
+@Service
+public class UserService {
+
+	...
+  
+	public User getUser(String username) {
+		Optional<User> user = userRepository.findByusername(username);
+		// user를 못찾을 경우 예외처리 필요
+		return user.get();
+	}
+}
+```
+
+</details>
+
+### 2. 메인 페이지의 게시글 제목 옆 답변 개수 표시 기능
+
+대부분 게시판의 게시글 제목의 옆에는 해당 게시물에 달린 답변의 개수가 표시되어 있으며
+
+위 프로젝트에서도 답변의 개수를 표시하는 기능이 필요
+
+
+### 3. 게시글 검색 기능 구현
+
+메인 페이지에서 게시글 리스트를 보여주는것 외에 게시글을 검색할 수 있는 기능 필요
+
+
+### 4. 회원정보 수정 및 탈퇴 기능
+
+로그인이 되어있을 경우 각 회원들이 접속할 수 있는 회원정보를 수정 및 탈퇴 페이지를 만들고
+
+해당 페이지에서 회원정보 수정 및 탈퇴 기능 구현이 필요
+
+
+## 후기
+
+앞의 소개에서도 이야기한것처럼 이 프로젝트는 SpringBoot를 공부하면서 웹 페이지와 서버의 기본적인 기능인
+
+CRUD와 로그인, 회원가입 기능을 구현해보기 위해 시작한 프로젝트입니다.
+
+이전에 React.js와 node.js를 사용해 MERN STACT으로 개발해서 간단한 블로그를 만든적이 있는데
+
+이번에는 Spring으로 객체지향 프로그래밍 방식의 프로젝트의 전반적인 구성과 사용법을 알아보고 
+
+Spring에서 제공하는 다양한 라이브러리를 사용해보는것이 목표였습니다.
+
+Spring Data JPA와 Spring Security는 MERN STACK과는 다르게 라이브러리에서 제공하는 기능이 다양하기 때문에
+
+여러 서적과 인터넷 검색을 통해 기능들을 찾아보았으며, 
+
+이번 프로젝트가 끝난후에 따로 다시 공부를 해야할 필요성을 느꼈습니다.
+
+특히 Spring Data JPA는 각각의 객체를 테이블로 매핑시킨다는점이 인상적이었으며, 
+
+개발자 입장에서는 JPA라는 기술을 한번 더 배워야한다는 번거로움은 있지만
+
+기존에 프로그램 안에서 개발자가 수행하던 데이터베이스 설정이나 SQL 구문을 보내는 기능 등을
+
+JPA가 대신 해주기 때문에 초기에 프로젝트의 설계만 잘한다면 오히려 편하다는 생각이 들었습니다.
+
+또한 Spring Security의 경우 Security가 보안 설정을 해주기 때문에 편리하지만
+
+Thymeleaf와 연동해서 많은 기능을 갖고 있는 만큼 알아야할것이 많다는것을 느꼈으며
+
+Thymeleaf를 먼저 공부한뒤에 Spring Security를 공부하면 좋겠다는 생각이 들었습니다.
+
+때문에 앞으로의 공부방향은 
+
+1. JPA와 Spring Data JPA
+
+2. Thymeleaf 기본 기능
+
+3. Spring Security 
+
+위와 같은 순서로 공부를 하고 다시 한번 SpringBoot를 활용한 게시판 프로젝트를 만들어보려고 합니다.
+
+감사합니다.
